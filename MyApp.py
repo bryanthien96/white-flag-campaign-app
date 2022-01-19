@@ -78,7 +78,7 @@ with st.expander('Details'):
     st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"World Cloud of Positive, Negative & Neutral Tweets"}<ins></h1>', unsafe_allow_html=True)  
     col1, col2, col3 = st.columns(3)
     with col1:    
-        st.image(Image.open('Images/Desktop/Positive Wordcloud.png'), caption='Word cloud of positive tweets.')
+        st.image(Image.open('Images/Positive Wordcloud.png'), caption='Word cloud of positive tweets.')
     with col2:
         st.image(Image.open('Images/Negative Wordcloud.png'), caption='Word cloud of negative tweets.')
     with col3:
