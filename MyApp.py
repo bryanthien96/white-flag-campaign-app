@@ -1,10 +1,7 @@
-# to run the app: streamlit run c:/Users/bryan/OneDrive/Desktop/MyApp2.py on cmd prompt
-
 import numpy as np
 import streamlit as st
 from PIL import Image
 import pandas as pd
-#import re
 
 # Gensim
 import gensim
@@ -15,6 +12,7 @@ from gensim.models import CoherenceModel
 # Plotting tools
 import pyLDAvis
 import pyLDAvis.gensim_models as gensimvis
+import matplotlib.pyplot as plt
 from streamlit import components
 
 # Enable logging for gensim - optional
@@ -37,7 +35,7 @@ with st.expander('Details'):
         st.image("https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/methode/2021/07/04/d0db1694-dbdf-11eb-9660-0b62a055b768_image_hires_154804.jpg?itok=iX84qcta&v=1625384901", caption="Image taken from South China Morning Post.")
     with col2:
         st.image("https://media2.malaymail.com/uploads/articles/2021/2021-07/white_flag_kuching_01072021.JPG", caption="Image taken from MalayMail.")
-    st.markdown("The **White Flag Campaign** was initiatated by an entrepreneur and politician, named Nik Faizah Nik Othman who wrote a Facebook post to encourage people who needed help to raise a white flag outside of their home as a signal for people to help them if they were financially impacted by the COVID-19 pandemic.")
+    st.markdown("The **White Flag Campaign** was initiatated by an entrepreneur and politician, named Nik Faizah Nik Othman who wrote a Facebook post to encourage people who needed help to raise a white flag outside of their home as a signal for people to help them if they were financially impacted by the COVID-19 pandemic. With the increasing popularity of this campaign in social media lately, 5,250 tweets with locations stated in Malaysia were gathered for the analysis of this study. This study aims to examine effects of this campaign in Malaysia, as well as to explore how caring is the Malaysian society towards the less wealthy group during this pandemic.")
 
 st.header("Text Exploration")
 with st.expander('Details'):
@@ -127,19 +125,70 @@ lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
 
 st.header("Topic Modelling")
 with st.expander('Details'):
-    df = pd.DataFrame({
-    'Topics': ["Encourage people to not be embarrassed to raise a white flag as a sign of seeking help", "Criticism against the government", "Citizens offer help in any way possible on Twitter", "Miscellaneous", "The organization of food bank and donation for those in need"],
-    'Keywords': ["flag, white, help, raise, ask, need, house, mean, home, fly, call, sign, front, neighbor, media", "people, campaign, government, initiative, minister, politicians, good, political, support, fail, take, hijack, use, want, failure", "help, need, us, please, let, anyone, want, may, know, God, share, thank, one, spread, support", "people, make, like, want, even, go, know, work, think, say, one, many, right, still", "food, need, assistance, provide, bank, family, families, send, buy, donate, receive, rice, donations, thank"]
+    st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"The Emergent Topics with Keywords"}<ins></h1>', unsafe_allow_html=True)
+    # CSS to inject contained in a string
+    hide_table_row_index = """
+            <style>
+            tbody th {display:none}
+            .blank {display:none}
+            </style>
+            """
+
+    # Inject CSS with Markdown
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+
+    topics = pd.DataFrame({
+    'No' : [1, 2, 3, 4, 5],
+    'Topics': ["Encourage people to not be embarrassed to ask for help by raising white flag", 
+    "Criticism against the government", 
+    "Citizens offer help in any way possible on Twitter", "Miscellaneous", 
+    "The organization of food bank and donation for those in need"],
+    'Keywords': ["flag, white, help, raise, ask, need, house, mean, home, fly, call, sign, front, neighbor, hang", 
+    "people, campaign, government, initiative, politicians, take, good, political, minister, support, fail, hijack, use, failure, party", 
+    "help, need, us please, let, anyone, may, want, god, know, share, thank, one, spread, take", 
+    "people, make, like, want, even, go, know, work, think, say, one, many, right, still, lose", 
+    "food, need, assistance, provide, help, bank, family, families, send, buy, donate, receive, rice, donations, thank"]
     })
-    st.table(df)
+    st.table(topics)
+    st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"Visualization of Topics in a Topic Model"}<ins></h1>', unsafe_allow_html=True)
     vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, corpora_dict)
     html_string = pyLDAvis.prepared_data_to_html(vis)
     components.v1.html(html_string, width=1300, height=800)
+    st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"The Most Dominant Tweet for each Topic"}<ins></h1>', unsafe_allow_html=True)
+    dominant_topic = pd.DataFrame({
+    'No' : [1, 2, 3, 4, 5],
+    'Topic': ["Encourage people to not be embarrassed to ask for help by raising white flag", 
+    "Criticism against the government", 
+    "Citizens offer help in any way possible on Twitter", 
+    "Miscellaneous", 
+    "The organization of food bank and donation for those in need"],
+    'Raw Tweets': ["Naikkan bendera putih jika perlukan bantuan, tidak perlu merayu, tidak perlu merasa malu, gesa netizen. Netizen menggesa mereka yang memerlukan bantuan ketika #PKP untuk mengibarkan bendera putih di luar kediaman mereka. #RakyatJagaRakyat #BenderaPutih https://t.co/VCpFqj7aZO https://t.co/VktmVCTcco",
+    "I hoped I never, ever to see any politicians ever involved with the solidarity of #BenderaPutih or in any form of riding the trending hashtag for personal and/or any specific party's interest. This is no longer about the government. This is about the people. The last stand.", 
+    "Hi korang. If korang rasa perlukan bantuan harian, boleh isi form yang i share kat thread. If nak bantu jiran pun boleh untuk isi google form. Sebab Meeracle Care nak bagi bantuan kepada yang memerlukan. #WeStandWithRakyat #MEERACLEXShopeeMart #MEERACLECares #BenderaPutih https://t.co/JLTMEgUXRK",
+    "Saya Non Muslim! Saya masih ingat lagi zaman the late Tok Guru Nik Aziz mengetuai PAS dulu! Saya sngt menghormati Tok Guru! Skrg, saya agak sedih melihat sikap ahli2 PAS terutama yg ader dlm kabinet ni! Sebak dngr kenyataan2 mereka terutama dlm isu #BenderaPutih ðŸ˜¢ https://t.co/ooTnjKFcW0",
+    "Bantuan #BenderaPutih batch pertama telah tiba dan akan diedarkan mulai hari ini. Bantuan ke Kedah akan tiba minggu depan (lambat sikit sebab tengah exam week untuk finals ðŸ˜…). Terima kasih kepada barisan penaja atas sumbangan hampir 20k untuk tujuan #BenderaPutih #KitaJagaKita https://t.co/y6yyDdJ9S9"], 
+    'Translated Tweets' : ["Raise a white flag if you need help, no need to appeal, no need to feel embarrassed. Netizens urged those in need of help to fly white flags outside their homes.",
+    "I hoped I never, ever to see any politicians ever involved with the solidarity of or in any form of riding the trending hashtag for personal andor any specific party's interest. This is no longer about the government. This is about the people. The last stand.",
+    "Hi guys. If you feel you need daily help, you can fill out the form that I shared in the thread. If you want to help your neighbors, you can also fill in the google form. Because Meeracle Care wants to render help for those in need. #WeStandWithRakyat #MEERACLEXShopeeMart #MEERACLECares #BenderaPutih https://t.co/JLTMEgUXRK",
+    "I am a non -Muslim! I still remember the time when the late Tok Guru Nik Aziz led PAS first! I have no respect for Tok Guru! Now, I am a little sad to see the attitude of PAS members, especially those in this cabinet! It is heartbreaking to hear their statements, especially in the issue of #BenderaPutih ðŸ˜ ¢ https://t.co/ooTnjKFcW0",
+    "The first batch of #BenderaPutih aid has arrived and will be distributed starting today. Aid to Kedah will arrive next week (a little late because it is in the middle of exam week for the finals…). Thanks to the line of sponsors for donating almost 20k for the purpose of #BenderaPutih #KitaJagaKita https://t.co/y6yyDdJ9S9"],
+    })
+    st.table(dominant_topic)
 
-# st.header("Sentiment Analysis by Topic")
-# with st.expander('Details'):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         st.image("xxx")
-#     with col2:
-#         st.text("Sentiments by Topic in Radar Chart")
+st.header("Sentiment Analysis by Topic")
+with st.expander('Details'):
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("Images/Radar Chart.png", caption="Sentiments by topic in radar chart.")
+    with col2:
+        st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"Topic Label"}<ins></h1>', unsafe_allow_html=True)
+        topic_label = pd.DataFrame({
+                'No' : [1, 2, 3, 4, 5],
+                'Topics': ["Encourage people to not be embarrassed to ask for help by raising white flag", 
+                "Criticism against the government", 
+                "Citizens offer help in any way possible on Twitter", "Miscellaneous", 
+                "The organization of food bank and donation for those in need"]
+        })
+        st.table(topic_label)
+        st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"Sentiments by Topic in Radar Chart"}<ins></h1>', unsafe_allow_html=True)
+        st.markdown("Topic 3 and Topic 5 seemed to have a relatively higher positive sentiment where these topics were mainly discussing about the help offered to the receivers. Topic 2 and Topic 4 seemed to have a relatively higher negative sentiment when compared to the other topics. It seemed that there was an almost equal distribution of positive and negative sentiments towards Topic 2.")
