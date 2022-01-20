@@ -80,7 +80,7 @@ with st.expander('Details'):
     with col2:
         st.image(Image.open('Images/Negative Wordcloud.png'), caption='Word cloud of negative tweets.')
     with col3:
-        st.image(Image.open('Images\Neutral Wordcloud.png'), caption='Word cloud of neutral tweets.')
+        st.image(Image.open('Images/Neutral Wordcloud.png'), caption='Word cloud of neutral tweets.')
     st.markdown("Based on the word clouds generated, it can be seen that the most common words found across all sentiments are _“people”_, _“white”_, _“flag”_ and _“campaign”_. Besides, words like _“help”_, _“please”_, _“food”_, _“need”_, _“support”_, _“thanks”_, etc. are found in the positive word cloud. On the other hand, the words _“help”_ and _“government”_ emerged to be the most dominant words in the negative word cloud, while some other negative words included _“failure”_, _“fail”_, _“stupid”_, _“hijack”_, etc. By looking at the negative word cloud and the most frequent hashtags used in the tweets, it seems like most of the tweets related to the government carried a negative sentiment. Lastly, the neutral word cloud included words like _“need”_, _“food”_, _“raise”_, etc.")
 
 ## Topic Modelling
@@ -180,7 +180,7 @@ st.header("Sentiment Analysis by Topic")
 with st.expander('Details'):
     col1, col2 = st.columns(2)
     with col1:
-        st.image("Images\Radar Chart.png", caption="Sentiments by topic in radar chart.")
+        st.image("Images/Radar Chart.png", caption="Sentiments by topic in radar chart.")
     with col2:
         st.markdown(f'<h1 style="color:#4e4e94;font-size:27px;"><u>{"Topic Label"}<ins></h1>', unsafe_allow_html=True)
         topic_label = pd.DataFrame({
