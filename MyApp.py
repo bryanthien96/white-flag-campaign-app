@@ -35,7 +35,7 @@ with st.expander('Details'):
         st.image("https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/methode/2021/07/04/d0db1694-dbdf-11eb-9660-0b62a055b768_image_hires_154804.jpg?itok=iX84qcta&v=1625384901", caption="Image taken from South China Morning Post.")
     with col2:
         st.image("https://media2.malaymail.com/uploads/articles/2021/2021-07/white_flag_kuching_01072021.JPG", caption="Image taken from MalayMail.")
-    st.markdown("The **White Flag Campaign** was initiatated by an entrepreneur and politician, named Nik Faizah Nik Othman who wrote a Facebook post to encourage people who needed help to raise a white flag outside of their home as a signal for people to help them if they were financially impacted by the COVID-19 pandemic. With the increasing popularity of this campaign in social media lately, this study aims to examine public sentiments towards this campaign as well as to explore how caring is the Malaysian society towards the less wealthy group.")
+    st.markdown("The **White Flag Campaign** was initiatated by an entrepreneur and politician, named Nik Faizah Nik Othman who wrote a Facebook post to encourage people who needed help to raise a white flag outside of their home as a signal for people to help them if they were financially impacted by the COVID-19 pandemic. With the increasing popularity of this campaign in social media lately, this study intends to take this initiative to explore how caring is the Malaysian society towards the underprivileged in agony.")
 
 st.header("Text Exploration")
 with st.expander('Details'):
